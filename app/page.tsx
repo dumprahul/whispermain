@@ -195,51 +195,195 @@ export default function Home() {
               </span>
             </div>
 
-            <div className="grid gap-12 pt-10 lg:grid-cols-[1fr_minmax(0,420px)] lg:gap-16">
-              <div>
-                <p
-                  className="text-lg leading-relaxed md:text-xl"
+            <div className="mt-10 max-w-[880px]">
+              <p
+                className="font-mono text-[11px] uppercase tracking-[0.12em]"
+                style={{ color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}
+              >
+                Before you run
+              </p>
+              <div
+                className="mt-4 border px-6 py-5"
+                style={{ borderColor: "var(--rule)", background: "var(--bg-2)" }}
+              >
+                <ol
+                  className="mt-2 list-decimal space-y-2 pl-5 text-[15px] leading-[1.6]"
                   style={{ color: "var(--ink-2)" }}
                 >
-                  Clone the open-source repo, run the AXL-backed provider mesh
-                  locally, and open the Web UI. Python 3.11+, the bundled{" "}
-                  <code className="font-mono text-[0.85em]" style={{ color: "var(--ink)" }}>
-                    axl/node
-                  </code>{" "}
-                  binary, and optionally Ollama for real inference — see the
-                  README for Docker, tuning, and demos.
-                </p>
-                <ul
-                  className="mt-8 list-none space-y-3 pl-0 font-mono text-[13px] leading-relaxed md:text-sm"
-                  style={{ color: "var(--ink-2)", fontFamily: "var(--font-mono)" }}
-                >
-                  <li style={{ borderLeft: "2px solid var(--alive)", paddingLeft: 14 }}>
-                    <span style={{ color: "var(--ink)" }}>Optional ·</span>{" "}
-                    <code>JUSTANAME_API_KEY</code> in{" "}
-                    <code>.env</code> enables ENS subname self-registration at
-                    startup (Sepolia).
+                  <li>
+                    <strong style={{ fontWeight: 500, color: "var(--ink)" }}>Python 3.11+</strong>{" "}
+                    — dependencies listed in repo{" "}
+                    <code className="font-mono text-[13px]" style={{ color: "var(--ink)" }}>
+                      requirements.txt
+                    </code>{" "}
+                    (e.g. <code className="font-mono text-[13px]">cryptography</code>,{" "}
+                    <code className="font-mono text-[13px]">flask</code>).
                   </li>
-                  <li style={{ borderLeft: "2px solid var(--gold)", paddingLeft: 14 }}>
-                    <span style={{ color: "var(--ink)" }}>Verify ·</span>{" "}
-                    <code>./demo/verify.sh</code> and{" "}
-                    <code>./demo/judge_demo.sh</code> for fault-tolerance checks.
+                  <li>
+                    <strong style={{ fontWeight: 500, color: "var(--ink)" }}>
+                      AXL binary
+                    </strong>{" "}
+                    at{" "}
+                    <code className="font-mono text-[13px]" style={{ color: "var(--ink)" }}>
+                      axl/node
+                    </code>{" "}
+                    — pre-built static Linux x86-64 in the repo (used by{" "}
+                    <code className="font-mono text-[13px]">run_local.sh</code>).
                   </li>
-                  <li style={{ borderLeft: "2px solid var(--rule)", paddingLeft: 14 }}>
-                    <span style={{ color: "var(--ink)" }}>P2P submit ·</span>{" "}
-                    <code>python -m demo.submit_p2p</code> — task in and result out
-                    over AXL only.
+                  <li>
+                    <strong style={{ fontWeight: 500, color: "var(--ink)" }}>
+                      openssl
+                    </strong>{" "}
+                    — for key generation (invoked automatically by{" "}
+                    <code className="font-mono text-[13px]">run_local.sh</code>).
                   </li>
-                </ul>
+                  <li>
+                    Optional:{" "}
+                    <strong style={{ fontWeight: 500, color: "var(--alive)" }}>
+                      ENS
+                    </strong>{" "}
+                    — set{" "}
+                    <code className="font-mono text-[13px]">JUSTANAME_API_KEY</code> in{" "}
+                    <code className="font-mono text-[13px]">.env</code>;{" "}
+                    <code className="font-mono text-[13px]">run_local.sh</code> loads it.
+                  </li>
+                  <li>
+                    Optional:{" "}
+                    <strong style={{ fontWeight: 500, color: "var(--gold)" }}>Ollama</strong>{" "}
+                    — real inference; otherwise providers fall back to keyword search.
+                    For six parallel callers use{" "}
+                    <code className="font-mono text-[12px]" style={{ color: "var(--ink-2)" }}>
+                      OLLAMA_NUM_PARALLEL=6 ollama serve
+                    </code>
+                    .
+                  </li>
+                  <li>
+                    Optional: <strong style={{ fontWeight: 500, color: "var(--ink)" }}>Docker</strong>{" "}
+                    — multi-provider setup via repo{" "}
+                    <code className="font-mono text-[13px]">docker-compose.yml</code>.
+                  </li>
+                </ol>
               </div>
+            </div>
+
+            <div className="mt-14">
+              <p
+                className="font-mono text-[11px] uppercase tracking-[0.12em]"
+                style={{ color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}
+              >
+                Run the mesh · default (6 providers)
+              </p>
+              <ol
+                className="mt-5 max-w-[800px] list-decimal space-y-4 pl-5 text-[16px] leading-[1.55]"
+                style={{ color: "var(--ink-2)" }}
+              >
+                <li>
+                  Clone the repo and enter it (creates isolated env via{" "}
+                  <code className="font-mono text-[14px]" style={{ color: "var(--ink)" }}>
+                    ./run_local.sh
+                  </code>
+                  ).
+                </li>
+                <li>
+                  (Optional) Start Ollama with enough parallelism so all shards can answer
+                  at once — see snippet in the Quickstart box.
+                </li>
+                <li>
+                  (Optional) Append{" "}
+                  <code className="font-mono text-[14px]" style={{ color: "var(--ink)" }}>
+                    JUSTANAME_API_KEY=…
+                  </code>{" "}
+                  to <code className="font-mono text-[14px]">.env</code> for ENS
+                  subname registration on startup.
+                </li>
+                <li>
+                  <strong style={{ fontWeight: 500, color: "var(--ink)" }}>
+                    Start all provider nodes:
+                  </strong>{" "}
+                  <code className="font-mono text-[14px]" style={{ color: "var(--alive)" }}>
+                    FAST_MODE=1 ./run_local.sh
+                  </code>
+                  {" "}
+                  — boots AXL staggered (~1.5 s spacing), gossip, auctions, and Whisper;
+                  FAST mode uses shorter leases for quicker recovery demos.
+                </li>
+                <li>
+                  <strong style={{ fontWeight: 500, color: "var(--ink)" }}>
+                    Open the dashboard
+                  </strong>{" "}
+                  in another terminal:{` `}
+                  <code className="font-mono text-[14px]" style={{ color: "var(--ink)" }}>
+                    .venv/bin/python -m demo.webui
+                  </code>
+                  . Browse to{" "}
+                  <MonoLink href="http://localhost:5000">
+                    http://localhost:5000
+                  </MonoLink>
+                  {" "}
+                  (default provider HTTP debug ports are{" "}
+                  <code className="font-mono text-[13px]">8888–8893</code>—the UI polls
+                  them).
+                </li>
+                <li>
+                  Sanity-check:{` `}
+                  <code className="font-mono text-[14px]" style={{ color: "var(--ink)" }}>
+                    ./demo/verify.sh
+                  </code>{" "}
+                  (five automated checks incl. fault path). Full scripted demo:{` `}
+                  <code className="font-mono text-[14px]" style={{ color: "var(--ink)" }}>
+                    ./demo/judge_demo.sh &quot;neural network training&quot;
+                  </code>
+                  .
+                </li>
+              </ol>
+              <pre
+                className="mt-8 max-w-[920px] overflow-x-auto border p-6 text-[12px] leading-[1.65] whitespace-pre-wrap"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  background: "var(--bg-2)",
+                  borderColor: "var(--rule)",
+                  color: "var(--ink-2)",
+                }}
+              >
+                {`# 0. (Optional) Real LLM inference
+ollama pull llama3.2
+OLLAMA_NUM_PARALLEL=6 ollama serve &
+
+# 0b. (Optional) ENS self-registration via JustaName (Sepolia)
+echo "JUSTANAME_API_KEY=your_key_here" >> .env
+
+# 1. Start providers (6 nodes, FAST_MODE = short leases / quick rescue)
+FAST_MODE=1 ./run_local.sh
+
+# 2. Web UI (new terminal at repo root)
+.venv/bin/python -m demo.webui
+# → http://localhost:5000
+
+# 3. Automated checks
+./demo/verify.sh
+
+# 4. One-button demo: converge → submit → kill 3 providers → recover
+./demo/judge_demo.sh "neural network training"`}
+              </pre>
+            </div>
+
+            <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14">
               <div>
                 <p
-                  className="mb-3 font-mono text-[11px] uppercase tracking-[0.12em]"
+                  className="font-mono text-[11px] uppercase tracking-[0.12em]"
                   style={{ color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}
                 >
-                  Quickstart
+                  Fewer providers
+                </p>
+                <p className="mt-4 leading-relaxed" style={{ color: "var(--ink-2)" }}>
+                  Pass <code className="font-mono text-[13px]" style={{ color: "var(--ink)" }}>--count N</code>{" "}
+                  to <code className="font-mono text-[13px]">run_local.sh</code>. When you
+                  change N, align the Web UI’s port slice so it only polls nodes you
+                  actually started — e.g. three providers on ports{" "}
+                  <code className="font-mono text-[13px]">8888–8890</code>:
                 </p>
                 <pre
-                  className="overflow-x-auto border p-6 text-[12px] leading-[1.65] whitespace-pre-wrap"
+                  className="mt-5 overflow-x-auto border p-5 text-[12px] leading-[1.65] whitespace-pre-wrap"
                   style={{
                     fontFamily: "var(--font-mono)",
                     background: "var(--bg-2)",
@@ -247,26 +391,42 @@ export default function Home() {
                     color: "var(--ink-2)",
                   }}
                 >
-{`git clone https://github.com/krishnan74/whisper-network.git
-cd whisper-network
-
-# Optional: ENS registration on Sepolia (JustaName)
-# echo "JUSTANAME_API_KEY=your_key" >> .env
-
-# Optional: Ollama for real LLM inference
-# ollama pull llama3.2 && OLLAMA_NUM_PARALLEL=6 ollama serve &
-
-FAST_MODE=1 ./run_local.sh
-.venv/bin/python -m demo.webui
-# Web UI → http://localhost:5000`}
+                  {`FAST_MODE=1 ./run_local.sh --count 3
+.venv/bin/python -m demo.webui --nodes 8888-8890`}
+                </pre>
+              </div>
+              <div>
+                <p
+                  className="font-mono text-[11px] uppercase tracking-[0.12em]"
+                  style={{ color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}
+                >
+                  Submit over AXL only
+                </p>
+                <p className="mt-4 leading-relaxed" style={{ color: "var(--ink-2)" }}>
+                  Jobs can be injected through the local AXL HTTP bridge (no debug HTTP on
+                  the critical path). Point <code className="font-mono text-[13px]">--axl</code> at
+                  the first node’s bridge (default <code className="font-mono text-[13px]">9002</code>
+                  ), from the repo root with the venv active:
+                </p>
+                <pre
+                  className="mt-5 overflow-x-auto border p-5 text-[12px] leading-[1.65] whitespace-pre-wrap"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    background: "var(--bg-2)",
+                    borderColor: "var(--rule)",
+                    color: "var(--ink-2)",
+                  }}
+                >
+                  {`.venv/bin/python -m demo.submit_p2p "attention" --axl http://localhost:9002`}
                 </pre>
                 <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>
-                  Variable provider count:{` `}
-                  <code className="font-mono text-[13px]" style={{ color: "var(--ink-2)" }}>
-                    ./run_local.sh --count 3
-                  </code>
-                  ; match ports in the README for{" "}
-                  <code className="font-mono text-[13px]">demo.webui</code>.
+                  Interactive kill/rescue window: start with{" "}
+                  <code className="font-mono text-[12px]" style={{ color: "var(--ink-2)" }}>
+                    EXEC_DELAY=15 FAST_MODE=1 ./run_local.sh
+                  </code>{" "}
+                  so tasks stay <code className="font-mono text-[12px]">in_progress</code> long
+                  enough to hit <strong style={{ fontWeight: 500, color: "var(--ink)" }}>Kill</strong> in
+                  the UI.
                 </p>
               </div>
             </div>
